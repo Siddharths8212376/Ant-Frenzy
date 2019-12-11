@@ -11,7 +11,7 @@ public class InstantiatePrefab : MonoBehaviour
     public bool is_update = false;
     public int count = 0;
     public int getTotalCount = 0;
-    public float multiplier = 1.5f;
+    public float multiplier = 1.2f;
     float screenx;
     float screeny;
     public int lim = 12;
@@ -32,10 +32,10 @@ public class InstantiatePrefab : MonoBehaviour
         Vector2 screenhw = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         screenx = screenhw.x;
         screeny = screenhw.y;
-        border1.transform.localScale = new Vector2(screenx, 0.1f);
-        border2.transform.localScale = new Vector2(screenx, 0.1f);
+        border1.transform.localScale = new Vector2(screenx, 0.18f);
+        border2.transform.localScale = new Vector2(screenx, 0.05f);
         border3.transform.localScale = new Vector2(0.02f, screeny);
-        border3.transform.localScale = new Vector2(0.02f, screeny);
+        border4.transform.localScale = new Vector2(0.02f, screeny);
         Debug.Log(screenx);
         Debug.Log(screeny);
         border1.transform.position = new Vector2(0, screeny);
@@ -90,7 +90,14 @@ public class InstantiatePrefab : MonoBehaviour
             count_len += 1;
             getTotalCount += 1;
             total_len -= 1;
-            delta_add += 0.03f;
+            if (delta_add <= 2.0f)
+            {
+                delta_add += 0.03f;
+            }
+            else
+            {
+                delta_add += 0.2f;
+            }
             if (getTotalCount >= lim)
             {
                 PlayPause.instance.GameOver();

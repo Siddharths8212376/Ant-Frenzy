@@ -8,6 +8,8 @@ public class PinchDestroy : MonoBehaviour
     // Start is called before the first frame update
     float touchesPrevPosDiff, touchesCurPosDiff;
     public static PinchDestroy instance;
+    // create the game object for instantiting blood splash
+    public GameObject bloodSplash;
     //public SimpleHealthBar healthBar;
     public int antScore = 1;
     public int killCount = 0;
@@ -164,6 +166,7 @@ public class PinchDestroy : MonoBehaviour
         // Handheld.Vibrate();
         SoundManagerScript.PlaySound("AntSquish");
         float limit_ = (float)InstantiatePrefab.instance.returnLim();
+        Instantiate(bloodSplash, transform.position, Quaternion.identity);
        // healthBar.UpdateBar((float)antScore, limit_);
        // UpdateHealth();
         ScoreManager.instance.ChangeScore(antScore);

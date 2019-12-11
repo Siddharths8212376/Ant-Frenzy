@@ -8,7 +8,7 @@ public class AntMovement : MonoBehaviour
     public Rigidbody2D rb;
     public float speed;
     Vector2 zero = new Vector2(0, 0);
-    public float speed_lim = 2f;
+    public float speed_lim = 1.5f;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
