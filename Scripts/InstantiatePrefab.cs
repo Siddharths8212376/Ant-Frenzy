@@ -10,7 +10,7 @@ public class InstantiatePrefab : MonoBehaviour
     public float min_X, min_Y, max_X, max_Y;
     public bool is_update = false;
     public int count = 0;
-    public int getTotalCount = 0;
+    public float getTotalCount = 0f;
     public float multiplier = 1.2f;
     float screenx;
     float screeny;
@@ -88,7 +88,7 @@ public class InstantiatePrefab : MonoBehaviour
             Instantiate(AntPrefab, points, Quaternion.identity);
             yield return new WaitForSeconds(start_del + delta_add);
             count_len += 1;
-            getTotalCount += 1;
+            getTotalCount += 1.0f;
             total_len -= 1;
             if (delta_add <= 2.0f)
             {
@@ -139,10 +139,10 @@ public class InstantiatePrefab : MonoBehaviour
     }
     public void decrementCount()
     {
-        getTotalCount -= 1;
+        getTotalCount -= 0.4f;
         healthBar.UpdateBar((float)getTotalCount, (float)lim);
     }
-    public int returnCount()
+    public float returnCount()
     {
         return getTotalCount;
     }
