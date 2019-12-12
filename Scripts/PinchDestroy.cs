@@ -10,6 +10,7 @@ public class PinchDestroy : MonoBehaviour
     public static PinchDestroy instance;
     // create the game object for instantiting blood splash
     public GameObject bloodSplash;
+    public GameObject bloodStain;
     //public SimpleHealthBar healthBar;
     public int antScore = 1;
     public int killCount = 0;
@@ -86,7 +87,7 @@ public class PinchDestroy : MonoBehaviour
 
                   Vector2 prevZero = (Input.GetTouch(0).deltaPosition);
                   Vector2 prevOne = (Input.GetTouch(1).deltaPosition);
-                  float minVal = 7f;
+                  float minVal = 8f;
                   firstTouchPrevPos = t_0 - prevZero;
                   secondTouchPrevPos = t_1- prevOne;
 
@@ -164,7 +165,7 @@ public class PinchDestroy : MonoBehaviour
     public void OnPinch()
     {
         // Handheld.Vibrate();
-        SoundManagerScript.PlaySound("AntSquish");
+        SoundManagerScript.PlaySound("AntSquishify");
         float limit_ = (float)InstantiatePrefab.instance.returnLim();
         Instantiate(bloodSplash, transform.position, Quaternion.identity);
        // healthBar.UpdateBar((float)antScore, limit_);
@@ -172,6 +173,7 @@ public class PinchDestroy : MonoBehaviour
         ScoreManager.instance.ChangeScore(antScore);
         UpdateScore.instance.UpdateHealth();
         InstantiatePrefab.instance.decrementCount();
+        Instantiate(bloodStain, transform.position, Quaternion.identity);
        // killCount += 1;
         /*if ((float)killCount == limit_)
         {

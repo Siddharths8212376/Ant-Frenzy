@@ -152,13 +152,14 @@ public class InstantiatePrefab : MonoBehaviour
     }
     public void WinLevel()
     {
+        // level won panel score value set up
         Time.timeScale = 0f;
-        levelWon.text = "You Killed " + UpdateScore.instance.returnKills().ToString() + " Ants";
+        levelWon.text = UpdateScore.instance.returnKills().ToString() ;
         LevelWonUI.SetActive(true);
     }
     public void GameOverTextChange()
     {
-        gameOverScore.text = "You Killed " + UpdateScore.instance.returnKills().ToString() + " Ants";
+        gameOverScore.text = UpdateScore.instance.returnKills().ToString() ;
     }
 }
 

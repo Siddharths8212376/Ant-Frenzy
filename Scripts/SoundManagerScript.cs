@@ -9,7 +9,7 @@ public class SoundManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        antSquishSound = Resources.Load<AudioClip>("AntSquish");
+        antSquishSound = Resources.Load<AudioClip>("AntSquishify");
         buttonClickSound = Resources.Load<AudioClip>("ButtonClick");
         antSpawnSound = Resources.Load<AudioClip>("Energy");
 
@@ -26,7 +26,7 @@ public class SoundManagerScript : MonoBehaviour
     {
         switch (clip)
         {
-            case "AntSquish":
+            case "AntSquishify":
                 audioSrc.PlayOneShot(antSquishSound);
                 break;
             case "ButtonClick":
