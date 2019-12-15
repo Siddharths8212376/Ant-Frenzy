@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayPause : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayPause : MonoBehaviour
     public static PlayPause instance;
     public GameObject pauseMenuUI;
     public GameObject GameOverUI;
+    public GameObject GameOverPrefab;
+    public Vector3 GameOverPosition = new Vector3(0f, 7f, 0f);
     
 
     void Start()
@@ -35,6 +38,7 @@ public class PlayPause : MonoBehaviour
     {
         // Handheld.Vibrate();
         SoundManagerScript.PlaySound("ButtonClick");
+        AudioListener.pause = false;
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
@@ -43,6 +47,7 @@ public class PlayPause : MonoBehaviour
     {
         // Handheld.Vibrate();
         SoundManagerScript.PlaySound("ButtonClick");
+        AudioListener.pause = true;
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
@@ -50,14 +55,14 @@ public class PlayPause : MonoBehaviour
 
     public void Menu()
     {
-        // Handheld.Vibrate();
+
         SoundManagerScript.PlaySound("ButtonClick");
         Debug.Log("Menu Clicked");
         SceneManager.LoadScene("BEGIN");
     }
     public void Exit()
     {
-        // Handheld.Vibrate();
+
         SoundManagerScript.PlaySound("ButtonClick");
         Debug.Log("Quit Application");
         Application.Quit();
@@ -66,20 +71,23 @@ public class PlayPause : MonoBehaviour
     {
 
         GameOverUI.SetActive(true);
-        // gameOverScore.text = "You Killed " + UpdateScore.instance.returnKills().ToString() + " Ants";
+        // adding the game over effect and sounds
+        Instantiate(GameOverPrefab, GameOverPosition, Quaternion.identity);
         InstantiatePrefab.instance.GameOverTextChange();
-        Time.timeScale = 0f;
+        Time.timeScale = 0.7f;
+
     }
     public void RestartGame()
     {
-        // Handheld.Vibrate();
+
+        AudioListener.pause = false;
         SoundManagerScript.PlaySound("ButtonClick");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1f;
     }
     public void NextLevel()
     {
-        // Handheld.Vibrate();
+
         SoundManagerScript.PlaySound("ButtonClick");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
