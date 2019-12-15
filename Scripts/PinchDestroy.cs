@@ -9,9 +9,10 @@ public class PinchDestroy : MonoBehaviour
     float touchesPrevPosDiff, touchesCurPosDiff;
     public static PinchDestroy instance;
     // create the game object for instantiting blood splash
+
     public GameObject bloodSplash;
     public GameObject bloodStain;
-    //public SimpleHealthBar healthBar;
+
     public int antScore = 1;
     public int killCount = 0;
 
@@ -154,34 +155,26 @@ public class PinchDestroy : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    /*void OnTriggerEnter2D(RaycastHit raycastHit)
-    {
-        if (raycastHit.collider.CompareTag("Obstacle"))
-        {
-            Destroy(gameObject);
-        }
-    }*/
+
 
     public void OnPinch()
     {
-        // Handheld.Vibrate();
+
         SoundManagerScript.PlaySound("AntSquishify");
         float limit_ = (float)InstantiatePrefab.instance.returnLim();
+    
+        // resolves issue #4
         Instantiate(bloodSplash, transform.position, Quaternion.identity);
-       // healthBar.UpdateBar((float)antScore, limit_);
-       // UpdateHealth();
+
         ScoreManager.instance.ChangeScore(antScore);
+
         UpdateScore.instance.UpdateHealth();
         InstantiatePrefab.instance.decrementCount();
+
+        // resolves issue #4
         Instantiate(bloodStain, transform.position, Quaternion.identity);
-       // killCount += 1;
-        /*if ((float)killCount == limit_)
-        {
-            // Time.timeScale = 0f;
-            // LevelWonUI_.SetActive(true);
-            InstantiatePrefab.instance.WinLevel();
-        }*/
-        Debug.Log(killCount);
+        ScoreManager.instance.TargetUpdate();
+
     }
     public int returnKillCount()
     {
