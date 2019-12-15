@@ -1868,7 +1868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33edea61cd4676446ba88642acb05c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AntPrefab: {fileID: 5714234165261057213, guid: 336abbc27e59b794ebc90f36364e1b6c,
+  AntPrefab: {fileID: 8668560868466881963, guid: 73811e0d8de1e644b8dfc641e54015a8,
     type: 3}
   won: {fileID: 0}
   congratsEffectPrefab: {fileID: 8750007613818161873, guid: 07bcd77d3a6abdd47ab48825be238070,
@@ -1882,7 +1882,7 @@ MonoBehaviour:
   count: 0
   getTotalCount: 0
   multiplier: 1
-  lim: 18
+  lim: 20
   border1: {fileID: 891783511}
   border2: {fileID: 2106513578}
   border3: {fileID: 1196763648}
@@ -1893,9 +1893,9 @@ MonoBehaviour:
   targetInit: {fileID: 2132135093}
   LevelWonUI: {fileID: 1889095291}
   delta_add: 0.4
-  start_del: 0.5
-  antSpawnCount: 50
-  antTarget: 35
+  start_del: 0.3
+  antSpawnCount: 80
+  antTarget: 50
   update_time: 0
   init_delay: 0.5
 --- !u!114 &669814702
@@ -2010,7 +2010,7 @@ SpriteRenderer:
   m_SortingLayerID: -1990783575
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 12a608e3421004441b77e4fbfe92ef77, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 11568378ec39f3749bfafe50f74971d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2030,7 +2030,7 @@ Transform:
   m_GameObject: {fileID: 674061992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 20}
-  m_LocalScale: {x: 0.35, y: 0.27, z: 1}
+  m_LocalScale: {x: 0.35, y: 0.28, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -2045,7 +2045,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6fbe967d688fc284aa860e1ef1045896, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8235be8bccf8bff4c829257d382dc2a4, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -6458,7 +6458,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Level: 03'
+  m_text: 'Level: 05'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7668,7 +7668,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Kills Left: 35'
+  m_text: 'Kills Left: 50'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

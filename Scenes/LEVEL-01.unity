@@ -1882,7 +1882,7 @@ MonoBehaviour:
   count: 0
   getTotalCount: 0
   multiplier: 1
-  lim: 15
+  lim: 20
   border1: {fileID: 891783511}
   border2: {fileID: 2106513578}
   border3: {fileID: 1196763648}
@@ -1892,11 +1892,12 @@ MonoBehaviour:
   gameOverScore: {fileID: 451628683}
   targetInit: {fileID: 2132135093}
   LevelWonUI: {fileID: 1889095291}
-  delta_add: 0.6
+  delta_add: 1
   start_del: 0.5
   antSpawnCount: 50
-  antTarget: 20
+  antTarget: 25
   update_time: 0
+  init_delay: 0.5
 --- !u!114 &669814702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2044,7 +2045,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dd5a80bfc05cfd84a93da166f9b10286, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 11c1f8649c581a549b4126938189a7ae, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -2594,7 +2595,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100%
+  m_Text: 0%
 --- !u!222 &800997444
 CanvasRenderer:
   m_ObjectHideFlags: 0
