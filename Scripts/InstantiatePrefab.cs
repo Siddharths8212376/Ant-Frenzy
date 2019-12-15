@@ -7,6 +7,9 @@ public class InstantiatePrefab : MonoBehaviour
     public GameObject AntPrefab;
     public LevelWon won;
     public static InstantiatePrefab instance;
+
+    public GameObject congratsEffectPrefab;
+    public Vector3 congratsPosition = new Vector3(0f, 6f, 0f);
     public float min_X, min_Y, max_X, max_Y;
     public bool is_update = false;
     public int count = 0;
@@ -22,10 +25,13 @@ public class InstantiatePrefab : MonoBehaviour
     public SimpleHealthBar healthBar;
     public TextMeshProUGUI levelWon;
     public TextMeshProUGUI gameOverScore;
+    public TextMeshProUGUI targetInit;
     public GameObject LevelWonUI;
     public float delta_add = 0.1f;
     public float start_del = 0.6f;
-    public int ant_count = 15;
+    public int antSpawnCount = 15;
+    public int antTarget = 35;
+    public float update_time;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,8 +48,8 @@ public class InstantiatePrefab : MonoBehaviour
         border2.transform.position = new Vector2(0, -screeny);
         border3.transform.position = new Vector2(screenx, 0);
         border4.transform.position = new Vector2(-screenx, 0);
+        targetInit.text = "Kills Left: " + antTarget.ToString();
 
-        // Invoke("Instantiate_P", 2);
         StartCoroutine(Instantiate_P());
         if(instance == null)
         {
@@ -51,25 +57,14 @@ public class InstantiatePrefab : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    /*void Update()
-    {
-        // Do the initial instantiation
-        if (is_update == false)
-        {
-            Invoke("Instantiate_P", 2000);
-            is_update = true;
-        }
-
-    }*/
 
     public IEnumerator Instantiate_P()
     {
-        float[] x_coords = new float[ant_count] ;
-        float[] y_coords = new float[ant_count] ;
+        float[] x_coords = new float[antSpawnCount] ;
+        float[] y_coords = new float[antSpawnCount] ;
         int count_len = 0;
         int i = 0;
-        for( i = 0; i < ant_count; i++)
+        for( i = 0; i < antSpawnCount; i++)
         {
             x_coords[i] = Random.Range(min_X, max_X);
             y_coords[i] = Random.Range(min_Y, max_Y);
@@ -80,8 +75,11 @@ public class InstantiatePrefab : MonoBehaviour
 
         while (count_len < x_coords.Length)
         {
-            float x = (float)getTotalCount * multiplier;   
-            healthBar.UpdateBar(x, (float)lim);
+            float x = (float)getTotalCount * multiplier;
+            float time_val = (float)lim;
+            update_time = time_val - x;
+            
+            healthBar.UpdateBar((float)update_time, (float)lim);
 
             Vector2 points = new Vector2(x_coords[count_len], y_coords[count_len]);
             SoundManagerScript.PlaySound("Energy");
@@ -98,8 +96,9 @@ public class InstantiatePrefab : MonoBehaviour
             {
                 delta_add += 0.2f;
             }
-            if (getTotalCount >= lim)
+            if (getTotalCount > lim)
             {
+
                 PlayPause.instance.GameOver();
                 break;
             }
@@ -109,28 +108,12 @@ public class InstantiatePrefab : MonoBehaviour
                 // LevelWonUI.SetActive(true);
                 PlayPause.instance.GameOver();
             }
-            /*if (total_len == 0)
-            {
-                // Level Won
-                // PlayPause.instance.LevelWon();
-                // won.WinLevel();
-                Time.timeScale = 0f;
-                LevelWonUI.SetActive(true);
-            }*/
 
         }
         
-        // Invoke("RepeatLoop");
 
     }
-   /* void RepeatLoop()
-    {
-        InvokeRepeating("Insta", 0, 5);
-    }
-    void Insta()
-    {
-        Instantiate(AntPrefab, getRandom(), Quaternion.identity);
-    }*/
+
     Vector2 getRandom()
     {
         float randomX = Random.Range(min_X, max_X);
@@ -139,8 +122,11 @@ public class InstantiatePrefab : MonoBehaviour
     }
     public void decrementCount()
     {
-        getTotalCount -= 0.4f;
-        healthBar.UpdateBar((float)getTotalCount, (float)lim);
+        getTotalCount -= 1.0f;
+        float current_health = update_time;
+        float update_health = current_health + 0.5f;
+        // update_time += update_health;
+        healthBar.UpdateBar((float)update_health, (float)lim);
     }
     public float returnCount()
     {
@@ -153,13 +139,20 @@ public class InstantiatePrefab : MonoBehaviour
     public void WinLevel()
     {
         // level won panel score value set up
-        Time.timeScale = 0f;
+        Time.timeScale = 0.6f;
         levelWon.text = UpdateScore.instance.returnKills().ToString() ;
         LevelWonUI.SetActive(true);
+
+        // adding the game won effects and applause
+        Instantiate(congratsEffectPrefab, congratsPosition, Quaternion.identity);
     }
     public void GameOverTextChange()
     {
         gameOverScore.text = UpdateScore.instance.returnKills().ToString() ;
+    }
+    public int returnTarget()
+    {
+        return antTarget;
     }
 }
 
