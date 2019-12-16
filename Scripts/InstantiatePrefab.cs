@@ -32,6 +32,7 @@ public class InstantiatePrefab : MonoBehaviour
     public int antSpawnCount = 15;
     public int antTarget = 35;
     public float update_time;
+    public float init_delay = 0.4f;
     // Start is called before the first frame update
     void Start()
     {
@@ -72,7 +73,7 @@ public class InstantiatePrefab : MonoBehaviour
         }
 
         int total_len = x_coords.Length;
-
+        yield return new WaitForSeconds(init_delay);
         while (count_len < x_coords.Length)
         {
             float x = (float)getTotalCount * multiplier;
@@ -105,7 +106,6 @@ public class InstantiatePrefab : MonoBehaviour
             if (x >= (float)lim)
             {
                 Time.timeScale = 0f;
-                // LevelWonUI.SetActive(true);
                 PlayPause.instance.GameOver();
             }
 
