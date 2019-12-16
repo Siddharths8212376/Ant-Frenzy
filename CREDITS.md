@@ -1,13 +1,13 @@
 ## Credits for the music used
 ___
 
-Alan Walker - Faded, Alone, Darkside
+**Alan Walker** - Faded, Alone, Darkside
 
-The Chainsmokers & Coldplay - Something Just Like This
+**The Chainsmokers & Coldplay** - Something Just Like This
 
-Mike Posner - I Took A Pill In Ibiza
+**Mike Posner** - I Took A Pill In Ibiza
 
-KyGo - Firestone
+**KyGo** - Firestone
 
 
 ___
