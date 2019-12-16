@@ -144,6 +144,7 @@ public class InstantiatePrefab : MonoBehaviour
         LevelWonUI.SetActive(true);
 
         // adding the game won effects and applause
+        // resolves issues #6
         Instantiate(congratsEffectPrefab, congratsPosition, Quaternion.identity);
     }
     public void GameOverTextChange()

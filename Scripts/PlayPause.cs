@@ -29,14 +29,10 @@ public class PlayPause : MonoBehaviour
     {
         
     }
-    /*public void LevelWon()
-    {
-        LevelWonUI.SetActive(true);
 
-    }*/
     public void Resume()
     {
-        // Handheld.Vibrate();
+        
         SoundManagerScript.PlaySound("ButtonClick");
         AudioListener.pause = false;
         pauseMenuUI.SetActive(false);
@@ -45,7 +41,7 @@ public class PlayPause : MonoBehaviour
     }
     public void Pause()
     {
-        // Handheld.Vibrate();
+        
         SoundManagerScript.PlaySound("ButtonClick");
         AudioListener.pause = true;
         pauseMenuUI.SetActive(true);
@@ -72,6 +68,7 @@ public class PlayPause : MonoBehaviour
 
         GameOverUI.SetActive(true);
         // adding the game over effect and sounds
+        // resolves issue #6
         Instantiate(GameOverPrefab, GameOverPosition, Quaternion.identity);
         InstantiatePrefab.instance.GameOverTextChange();
         Time.timeScale = 0.7f;
