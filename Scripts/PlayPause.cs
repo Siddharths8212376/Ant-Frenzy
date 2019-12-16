@@ -55,6 +55,7 @@ public class PlayPause : MonoBehaviour
         SoundManagerScript.PlaySound("ButtonClick");
         Debug.Log("Menu Clicked");
         SceneManager.LoadScene("BEGIN");
+        Time.timeScale = 1f;
     }
     public void Exit()
     {
