@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class PinchDestroy : MonoBehaviour
 {
     // Start is called before the first frame update
     float touchesPrevPosDiff, touchesCurPosDiff;
     public static PinchDestroy instance;
+
+    // declare a static event action using delegate
+    public static event Action AntKilled = delegate { };
+
     // create the game object for instantiting blood splash
 
     public GameObject bloodSplash;
@@ -159,8 +164,10 @@ public class PinchDestroy : MonoBehaviour
 
     public void OnPinch()
     {
+        // call the event for updating score
+        AntKilled();
 
-        SoundManagerScript.PlaySound("AntSquishify");
+        SoundManagerScript.PlaySound("squishNew");
         float limit_ = (float)InstantiatePrefab.instance.returnLim();
     
         // resolves issue #4
