@@ -49,7 +49,7 @@ public class InstantiatePrefab : MonoBehaviour
         border2.transform.position = new Vector2(0, -screeny);
         border3.transform.position = new Vector2(screenx, 0);
         border4.transform.position = new Vector2(-screenx, 0);
-        targetInit.text = "Kills Left: " + antTarget.ToString();
+        targetInit.text = antTarget.ToString();
 
         StartCoroutine(Instantiate_P());
         if(instance == null)
