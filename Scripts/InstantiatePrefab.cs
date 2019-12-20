@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
+
 public class InstantiatePrefab : MonoBehaviour
 {
     public GameObject AntPrefab;
     public LevelWon won;
     public static InstantiatePrefab instance;
-
+    public bool playOnce = true;
+    public static event Action SecondOn = delegate { };
+    // adding a resolution to issue #7
+    // declare the event level won
+    public bool LevelWon = false;
+    public bool LevelLost = false;
     public GameObject congratsEffectPrefab;
     public Vector3 congratsPosition = new Vector3(0f, 6f, 0f);
     public float min_X, min_Y, max_X, max_Y;
     public bool is_update = false;
     public int count = 0;
-    public float getTotalCount = 0f;
+    public int getTotalCount = 30;
     public float multiplier = 1.2f;
     float screenx;
     float screeny;
@@ -34,8 +41,18 @@ public class InstantiatePrefab : MonoBehaviour
     public float update_time;
     public float init_delay = 0.4f;
     // Start is called before the first frame update
+
+    // adding a time delay to resolve the procedural issue
+    public float currentTime = 0f;
+    // setting the start time as 2 minutes
+    public float startingTime = 120f;
+    public float delTime = 0f;
+
     void Start()
     {
+        //  set the current time as starting time
+        currentTime = startingTime;
+        delTime = currentTime;
         Vector2 screenhw = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         screenx = screenhw.x;
         screeny = screenhw.y;
@@ -67,13 +84,13 @@ public class InstantiatePrefab : MonoBehaviour
         int i = 0;
         for( i = 0; i < antSpawnCount; i++)
         {
-            x_coords[i] = Random.Range(min_X, max_X);
-            y_coords[i] = Random.Range(min_Y, max_Y);
+            x_coords[i] = UnityEngine.Random.Range(min_X, max_X);
+            y_coords[i] = UnityEngine.Random.Range(min_Y, max_Y);
 
         }
 
         int total_len = x_coords.Length;
-        yield return new WaitForSeconds(init_delay);
+      
         while (count_len < x_coords.Length)
         {
             float x = (float)getTotalCount * multiplier;
@@ -85,50 +102,33 @@ public class InstantiatePrefab : MonoBehaviour
             Vector2 points = new Vector2(x_coords[count_len], y_coords[count_len]);
             SoundManagerScript.PlaySound("Energy");
             Instantiate(AntPrefab, points, Quaternion.identity);
-            yield return new WaitForSeconds(start_del + delta_add);
+            // yield return new WaitForSeconds(start_del + delta_add);
             count_len += 1;
-            getTotalCount += 1.0f;
+            // getTotalCount += 1.0f;
             total_len -= 1;
-            if (delta_add <= 2.0f)
-            {
-                delta_add += 0.03f;
-            }
-            else
-            {
-                delta_add += 0.2f;
-            }
-            if (getTotalCount > lim)
-            {
 
-                PlayPause.instance.GameOver();
-                break;
-            }
-            if (x >= (float)lim)
-            {
-                Time.timeScale = 0f;
-                PlayPause.instance.GameOver();
-            }
 
         }
-        
+        yield return new WaitForSeconds(init_delay);
+
 
     }
 
-    Vector2 getRandom()
+    /*Vector2 getRandom()
     {
         float randomX = Random.Range(min_X, max_X);
         float randomY = Random.Range(min_Y, max_Y);
         return new Vector2(randomX, randomY);
-    }
+    }*/
     public void decrementCount()
     {
-        getTotalCount -= 1.0f;
-        float current_health = update_time;
-        float update_health = current_health + 0.5f;
+        getTotalCount -= 1;
+        // float current_health = update_time;
+        // float update_health = current_health + 0.5f;
         // update_time += update_health;
-        healthBar.UpdateBar((float)update_health, (float)lim);
+        // healthBar.UpdateBar((float)update_health, (float)lim);
     }
-    public float returnCount()
+    public int returnCount()
     {
         return getTotalCount;
     }
@@ -139,6 +139,7 @@ public class InstantiatePrefab : MonoBehaviour
     public void WinLevel()
     {
         // level won panel score value set up
+        LevelWon = true;
         Time.timeScale = 0.6f;
         levelWon.text = UpdateScore.instance.returnKills().ToString() ;
         LevelWonUI.SetActive(true);
@@ -155,5 +156,56 @@ public class InstantiatePrefab : MonoBehaviour
     {
         return antTarget;
     }
+
+    // adding the update function
+    void Update()
+    {
+        if(playOnce == true)
+        {
+            SoundManagerScript.PlaySound("TickTock");
+            playOnce = false;
+        }
+        currentTime -= 1 * Time.deltaTime;
+        if((int)(delTime - currentTime) == 1)
+        {
+            
+            SecondOn();
+            // play one shot time lapse
+            if (delTime > 10)
+            {
+                SoundManagerScript.PlaySound("TickTock");
+            }
+            else
+            {
+                SoundManagerScript.PlaySound("Clink");
+            }
+            delTime -= 1f;
+        }
+        healthBar.UpdateBar(currentTime, startingTime);
+
+        if (currentTime <= 0f)
+        {
+            currentTime = 0f;
+        }
+        if (currentTime == 0 && getTotalCount != 0)
+        {
+            // gameOver
+            if (LevelLost == false)
+            {
+                LevelLost = true;
+                PlayPause.instance.GameOver();
+            }
+
+        }
+        if (currentTime != 0 && getTotalCount == 0)
+        {
+            // winLevel
+            if (LevelWon == false)
+            {
+                WinLevel();
+            }
+        }
+    }
 }
+
 
