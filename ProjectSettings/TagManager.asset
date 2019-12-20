@@ -15,9 +15,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - Background
+  - Particle
+  - Ant
   - 
   - 
   - 
@@ -49,6 +49,15 @@ TagManager:
   - name: wall_brick
     uniqueID: 2304183721
     locked: 0
+  - name: bloodStain
+    uniqueID: 1920240977
+    locked: 0
   - name: Ant
     uniqueID: 3228369931
+    locked: 0
+  - name: particle
+    uniqueID: 132173661
+    locked: 0
+  - name: congrats
+    uniqueID: 2636287315
     locked: 0
