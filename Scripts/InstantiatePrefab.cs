@@ -15,21 +15,26 @@ public class InstantiatePrefab : MonoBehaviour
     // declare the event level won
     public bool LevelWon = false;
     public bool LevelLost = false;
+    // variable to check whether the ant limit is reached or not
+    public bool limitReached = false;
     public GameObject congratsEffectPrefab;
     public Vector3 congratsPosition = new Vector3(0f, 6f, 0f);
     public float min_X, min_Y, max_X, max_Y;
     public bool is_update = false;
     public int count = 0;
-    public int getTotalCount = 30;
+    public int getTotalCount = 0;
     public float multiplier = 1.2f;
     float screenx;
     float screeny;
-    public int lim = 12;
+    public int limitOfAntsOnScreen = 25;
     public GameObject border1;
     public GameObject border2;
     public GameObject border3;
     public GameObject border4;
-    public SimpleHealthBar healthBar;
+    // time limit
+    public SimpleHealthBar timeBar;
+    // ant limit
+    public SimpleHealthBar antLimitBar;
     public TextMeshProUGUI levelWon;
     public TextMeshProUGUI gameOverScore;
     public TextMeshProUGUI targetInit;
@@ -90,26 +95,40 @@ public class InstantiatePrefab : MonoBehaviour
         }
 
         int total_len = x_coords.Length;
-      
+        yield return new WaitForSeconds(init_delay);
         while (count_len < x_coords.Length)
         {
-            float x = (float)getTotalCount * multiplier;
-            float time_val = (float)lim;
-            update_time = time_val - x;
-            
-            healthBar.UpdateBar((float)update_time, (float)lim);
-
-            Vector2 points = new Vector2(x_coords[count_len], y_coords[count_len]);
-            SoundManagerScript.PlaySound("Energy");
-            Instantiate(AntPrefab, points, Quaternion.identity);
-            // yield return new WaitForSeconds(start_del + delta_add);
-            count_len += 1;
-            // getTotalCount += 1.0f;
-            total_len -= 1;
 
 
+
+            if (limitReached == false)
+            {
+                Vector2 points = new Vector2(x_coords[count_len], y_coords[count_len]);
+                SoundManagerScript.PlaySound("Energy");
+                Instantiate(AntPrefab, points, Quaternion.identity);
+
+
+
+                count_len += 1;
+                getTotalCount += 1;
+                total_len -= 1;
+
+
+                float x = (float)getTotalCount;
+                float time_val = (float)limitOfAntsOnScreen;
+                update_time = time_val - x;
+
+
+                antLimitBar.UpdateBar(x, (float)limitOfAntsOnScreen);
+
+                yield return new WaitForSeconds(start_del + delta_add);
+            }
+            else
+            {
+                break;
+            }
         }
-        yield return new WaitForSeconds(init_delay);
+
 
 
     }
@@ -123,10 +142,7 @@ public class InstantiatePrefab : MonoBehaviour
     public void decrementCount()
     {
         getTotalCount -= 1;
-        // float current_health = update_time;
-        // float update_health = current_health + 0.5f;
-        // update_time += update_health;
-        // healthBar.UpdateBar((float)update_health, (float)lim);
+        antLimitBar.UpdateBar((float)getTotalCount, (float)limitOfAntsOnScreen);
     }
     public int returnCount()
     {
@@ -134,7 +150,7 @@ public class InstantiatePrefab : MonoBehaviour
     }
     public int returnLim()
     {
-        return lim;
+        return limitOfAntsOnScreen;
     }
     public void WinLevel()
     {
@@ -166,7 +182,7 @@ public class InstantiatePrefab : MonoBehaviour
             playOnce = false;
         }
         currentTime -= 1 * Time.deltaTime;
-        if((int)(delTime - currentTime) == 1)
+        if((int)(delTime - currentTime) == 1 && limitReached == false)
         {
             
             SecondOn();
@@ -181,23 +197,34 @@ public class InstantiatePrefab : MonoBehaviour
             }
             delTime -= 1f;
         }
-        healthBar.UpdateBar(currentTime, startingTime);
+        timeBar.UpdateBar(currentTime, startingTime);
 
         if (currentTime <= 0f)
         {
             currentTime = 0f;
         }
-        if (currentTime == 0 && getTotalCount != 0)
+        if ((currentTime == 0 && getTotalCount != 0) || getTotalCount > limitOfAntsOnScreen)
         {
             // gameOver
             if (LevelLost == false)
             {
+                string gameOverReason;
+                limitReached = true;
                 LevelLost = true;
-                PlayPause.instance.GameOver();
+                if (currentTime == 0)
+                {
+                    gameOverReason = "Time's UP! \n\n Better Luck Next Time;)";
+                }
+                else
+                {
+                    gameOverReason = "Ant Limit Reached! \n\n Try Harder Next Time ;)";
+                }
+                PlayPause.instance.GameOver(gameOverReason) ;
+
             }
 
         }
-        if (currentTime != 0 && getTotalCount == 0)
+        if (currentTime != 0 && (UpdateScore.instance.returnKills() == antTarget))
         {
             // winLevel
             if (LevelWon == false)

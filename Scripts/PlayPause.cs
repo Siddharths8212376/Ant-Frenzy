@@ -13,7 +13,10 @@ public class PlayPause : MonoBehaviour
     public GameObject GameOverUI;
     public GameObject GameOverPrefab;
     public Vector3 GameOverPosition = new Vector3(0f, 7f, 0f);
-    
+    public TextMeshProUGUI gameOverText;
+    // adding a resolution for issue # 7
+    // adding a level lost boolean variable
+    public bool LevelLost = false;
 
     void Start()
     {
@@ -51,7 +54,7 @@ public class PlayPause : MonoBehaviour
 
     public void Menu()
     {
-
+        AudioListener.pause = false;
         SoundManagerScript.PlaySound("ButtonClick");
         Debug.Log("Menu Clicked");
         SceneManager.LoadScene("BEGIN");
@@ -64,9 +67,10 @@ public class PlayPause : MonoBehaviour
         Debug.Log("Quit Application");
         Application.Quit();
     }
-    public void GameOver()
+    public void GameOver(string gameOverTextReason)
     {
-
+        LevelLost = true;
+        gameOverText.text = gameOverTextReason;
         GameOverUI.SetActive(true);
         // adding the game over effect and sounds
         // resolves issue #6
