@@ -226,10 +226,13 @@ public class InstantiatePrefab : MonoBehaviour
         }
         if (currentTime != 0 && (UpdateScore.instance.returnKills() == antTarget))
         {
+            // for each frame the time remains a constant then
+            currentTime += 1 * Time.deltaTime;
             // winLevel
             if (LevelWon == false)
             {
                 WinLevel();
+
             }
         }
     }
