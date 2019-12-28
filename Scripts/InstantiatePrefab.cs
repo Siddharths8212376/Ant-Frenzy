@@ -228,6 +228,8 @@ public class InstantiatePrefab : MonoBehaviour
         {
             // for each frame the time remains a constant then
             currentTime += 1 * Time.deltaTime;
+            // also stop spawning ants altogether
+            limitReached = true;
             // winLevel
             if (LevelWon == false)
             {
