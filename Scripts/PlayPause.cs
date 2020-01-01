@@ -42,6 +42,15 @@ public class PlayPause : MonoBehaviour
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
+    public void RestartLevel(){
+        
+        SoundManagerScript.PlaySound("ButtonClick");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        AudioListener.pause = false;
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        GameIsPaused = false;
+    }
     public void Pause()
     {
         
@@ -91,6 +100,7 @@ public class PlayPause : MonoBehaviour
     {
 
         SoundManagerScript.PlaySound("ButtonClick");
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
