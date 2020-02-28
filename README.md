@@ -28,3 +28,6 @@ Procedure:
    **`wingame()`**
 
 ___
+
+**Now Available on Play Store!!**
+___
